@@ -1,0 +1,24 @@
+.movies-content h3 {
+  font-size: 22px;
+  color: #ffff;
+}
+
+.movies {
+  margin-top: 50px;
+}
+
+.movie__box {
+  background: #000000;
+  padding-bottom: 2rem;
+  border-radius: 5px;
+  box-shadow: -1px 2px 34px -13px rgba(0, 0, 0, 0.75);
+  text-align: left;
+  overflow: hidden;
+  background-size: 100%, cover !important;
+  background-position: center, center !important;
+}
+.movie__text {
+  margin-top: 15px;
+  margin-bottom: -15px;
+  margin-left: 15px;
+}

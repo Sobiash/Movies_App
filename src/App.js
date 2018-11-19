@@ -76,7 +76,9 @@ class App extends Component {
           />
         </div>
         <SearchBar searchItems={this.searchItems} />
-        <Movies />
+        <div>
+          <Movies movies={this.state.movies} clickable={true} />
+        </div>
       </div>
     );
   }
