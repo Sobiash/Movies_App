@@ -26,7 +26,7 @@
   z-index: 100;
   max-width: 700px;
   position: absolute;
-  bottom: 40px;
+  bottom: 30px;
   margin-right: 20px;
   min-height: 100px;
   color: #f5821e;
@@ -35,13 +35,6 @@
 .heroImage-text h1 {
   font-family: "Abel", sans-serif;
   font-size: 40px;
-  background-color: #1c1c1c;
-}
-
-.heroImage-text p {
-  font-family: "Abel", sans-serif;
-  font-size: 22px;
-  line-height: 20px;
 }
 
 @media screen and (max-width: 720px) {
@@ -50,11 +43,6 @@
   }
 
   .heroImage-text h1 {
-    font-size: 38px;
-  }
-
-  .heroImage-text p {
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 30px;
   }
 }
