@@ -8,7 +8,6 @@ const HeroImage = props => {
       className="heroImage"
       style={{
         width: "100%",
-        height: "400px",
         background: `linear-gradient(to bottom, rgba(0,0,0,0.01) 30%, rgba(0,0,0,0.08) 49%, rgba(0,0,0,0.40) 61%,rgba(0,0,0,1) 95%),
         url('${IMAGE_BASE_URL}${BACKDROP_SIZE}${props.image}')`
       }}
