@@ -5,7 +5,6 @@
   position: relative;
   padding: 25px 20px 0px 20px;
   box-sizing: border-box;
-  color: #fff;
 }
 
 .searchbar-content {
@@ -44,6 +43,7 @@
   background: transparent;
   left: 25px;
   top: 5px;
+  color: #fff;
 }
 
 input[type="text"] {

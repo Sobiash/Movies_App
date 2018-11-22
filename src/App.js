@@ -4,6 +4,7 @@ import "./App.css";
 import HeroImage from "./components/HeroImage";
 import SearchBar from "./components/SearchBar";
 import Movies from "./components/Movies";
+import Spinner from "./components/Spinner";
 
 class App extends Component {
   state = {
@@ -93,13 +94,25 @@ class App extends Component {
               <Movies
                 key={key}
                 movie={this.state.movies[key]}
-                movkey={key}
+                movieName={this.state.movies[key].original_title}
+                movkey={this.state.movies[key].id}
                 clickable={true}
               />
             ))}
           </div>
         </div>
-        <button onClick={this.loadMoreItems}>Load More</button>
+        {this.state.loading ? <Spinner /> : null}
+        {this.state.currentPage <= this.state.totalPages &&
+        !this.state.loading ? (
+          <div className="container">
+            <button
+              className="loading-button col-xs-12"
+              onClick={this.loadMoreItems}
+            >
+              Load More
+            </button>
+          </div>
+        ) : null}
       </div>
     );
   }

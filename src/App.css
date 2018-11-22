@@ -29,6 +29,21 @@
   font-weight: 400;
 }
 
+.loading-button {
+  background: #f5821e;
+  width: 100%;
+  font-size: 32px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 50px;
+}
+
+.loading-button:hover {
+  opacity: 0.8;
+}
+
 .rmdb-logo {
   width: 300px;
   margin-top: 20px;
