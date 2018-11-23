@@ -5,8 +5,8 @@ import "../styles/Navigation.css";
 const Navigation = props => {
   return (
     <div className="navigation">
-      <div className="navigation-link">
-        <Link to="/">
+      <div className="navigation-content">
+        <Link to="/" className="navigation-link">
           <p>Home</p>
         </Link>
         <p>/</p>

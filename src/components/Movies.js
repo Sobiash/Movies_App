@@ -13,7 +13,11 @@ const Movies = props => {
         >
           <div className="movie__box">
             <img
-              style={{ height: "450px", width: "100%" }}
+              style={{
+                height: "450px",
+                width: "100%",
+                borderBottom: "2px solid #f5821e"
+              }}
               src={
                 props.movie.poster_path
                   ? `${IMAGE_BASE_URL}${POSTER_SIZE}${props.movie.poster_path}`

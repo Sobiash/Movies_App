@@ -1,3 +1,25 @@
+.movie .container {
+  background-color: #000000;
+}
+.movie h1 {
+  font-size: 36px;
+  line-height: 36px;
+  margin-bottom: 20px;
+  color: #fff;
+  text-transform: uppercase !important;
+  font-weight: 300;
+  margin: 0.67em 0;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+}
+.movie h2 {
+  font-size: 24px;
+  line-height: 26px;
+  margin-bottom: 24px;
+  text-transform: uppercase !important;
+  color: #fff;
+  font-weight: 300;
+}
 .movieinfo {
   background-size: cover !important;
   background-position: center !important;
@@ -5,5 +27,43 @@
   height: 600px;
   padding: 40px 20px;
   box-sizing: border-box;
+  border-bottom: 2px solid #f5821e;
   /* animation: animateMovieinfo 1s; */
+}
+.details {
+  margin: 100px 0;
+}
+
+.movie-content {
+  display: inline-block;
+  margin-right: 100px;
+}
+
+.movie-content p {
+  font-size: 13px;
+  font-weight: bold;
+  display: inline-block;
+  color: #fff;
+  text-transform: uppercase !important;
+}
+.movie-content p:nth-child(2) {
+  font-size: 20px;
+  margin-left: 10px;
+  font-weight: 300;
+}
+
+.movie-overview {
+  color: #fff;
+  font-size: 14px;
+}
+.table p {
+  font-size: 16px;
+  line-height: 1.5;
+  display: table;
+  color: #fff;
+  border-collapse: collapse;
+}
+
+.table-cell p {
+  display: table-cell;
 }
