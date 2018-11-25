@@ -1,10 +1,16 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "../styles/SearchBar.css";
 
 class SearchBar extends React.Component {
   state = {
     value: ""
   };
+
+  static propTypes = {
+    searchItems: PropTypes.func
+  };
+
   timeout = null;
 
   search = e => {

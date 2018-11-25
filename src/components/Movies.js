@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { IMAGE_BASE_URL, POSTER_SIZE } from "../config";
 import { Link } from "react-router-dom";
 
@@ -21,7 +22,7 @@ const Movies = props => {
               src={
                 props.movie.poster_path
                   ? `${IMAGE_BASE_URL}${POSTER_SIZE}${props.movie.poster_path}`
-                  : "./images/no_image.jpg"
+                  : "/Movies_App/images/no_image.jpg"
               }
               alt={props.movie.title}
             />
@@ -56,6 +57,16 @@ const Movies = props => {
       )}
     </div>
   );
+};
+
+Movies.propTypes = {
+  clickable: PropTypes.bool,
+  movkey: PropTypes.number,
+  movieName: PropTypes.string,
+  movie: PropTypes.shape({
+    poster_path: PropTypes.string,
+    title: PropTypes.string
+  })
 };
 
 export default Movies;

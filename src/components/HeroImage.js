@@ -1,5 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { IMAGE_BASE_URL, BACKDROP_SIZE } from "../config";
+
 import "../styles/HeroImage.css";
 
 const HeroImage = props => {
@@ -19,6 +21,11 @@ const HeroImage = props => {
       </div>
     </div>
   );
+};
+
+HeroImage.propTypes = {
+  title: PropTypes.string,
+  image: PropTypes.string
 };
 
 export default HeroImage;

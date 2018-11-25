@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   API_URL,
   API_KEY,
@@ -19,12 +20,23 @@ class Movie extends React.Component {
     genres: []
   };
 
+  static propTypes = {
+    match: PropTypes.object
+  };
+
   componentDidMount = async () => {
-    this.setState({ loading: true });
-    const endpoint = `${API_URL}movie/${
-      this.props.match.params.movieId
-    }?api_key=${API_KEY}&langyage=en-US`;
-    this.loadData(endpoint);
+    if (localStorage.getItem(`${this.props.match.params.movieId}`)) {
+      const state = JSON.parse(
+        localStorage.getItem(`${this.props.match.params.movieId}`)
+      );
+      this.setState({ ...state });
+    } else {
+      this.setState({ loading: true });
+      const endpoint = `${API_URL}movie/${
+        this.props.match.params.movieId
+      }?api_key=${API_KEY}&langyage=en-US`;
+      this.loadData(endpoint);
+    }
   };
 
   loadData = async endpoint => {
@@ -47,11 +59,19 @@ class Movie extends React.Component {
           const directors = data.crew.filter(
             member => member.job === "Director"
           );
-          this.setState({
-            actors: data.cast,
-            directors,
-            loading: false
-          });
+          this.setState(
+            {
+              actors: data.cast,
+              directors,
+              loading: false
+            },
+            () => {
+              localStorage.setItem(
+                `${this.props.match.params.movieId}`,
+                JSON.stringify(this.state)
+              );
+            }
+          );
         }
       );
     }
@@ -76,76 +96,83 @@ class Movie extends React.Component {
     return (
       <div className="movie">
         <div className="container">
-          <Navigation movieTitle={activeMovie.original_title} />
-          <h1>{activeMovie.original_title}</h1>
-          <div
-            className="movieinfo container"
-            style={{
-              background: activeMovie.backdrop_path
-                ? `url('${IMAGE_BASE_URL}${BACKDROP_SIZE}${
-                    activeMovie.backdrop_path
-                  }')`
-                : "#000000"
-            }}
-          />
+          {this.state.activeMovie ? (
+            <React.Fragment>
+              <Navigation movieTitle={activeMovie.original_title} />
+              <h1>{activeMovie.original_title}</h1>
+              <div
+                className="movieinfo container"
+                style={{
+                  background: activeMovie.backdrop_path
+                    ? `url('${IMAGE_BASE_URL}${BACKDROP_SIZE}${
+                        activeMovie.backdrop_path
+                      }')`
+                    : "#000000"
+                }}
+              />
+            </React.Fragment>
+          ) : null}
+
           {this.state.loading ? <Spinner /> : null}
-          <div className="details container">
-            <div className="row">
-              <div className="col-lg-8 col-xs-12">
-                <h2>More Information About {activeMovie.original_title}</h2>
-                <div className="movie-content">
-                  <p>Release Date: </p>
-                  <p>{activeMovie.release_date}</p>
-                </div>
-                <div className="movie-content">
-                  <p>Duration: </p>
-                  <p> {activeMovie.runtime} minutes</p>
-                </div>
-                <p className="movie-overview">{activeMovie.overview}</p>
-                <div className="table">
-                  <div className="table-cell">
-                    <p>Genre:</p>
-                    <p>{genre}</p>
+          {this.state.activeMovie ? (
+            <div className="details container">
+              <div className="row">
+                <div className="col-lg-8 col-xs-12">
+                  <h2>More Information About {activeMovie.original_title}</h2>
+                  <div className="movie-content">
+                    <p>Release Date: </p>
+                    <p>{activeMovie.release_date}</p>
+                  </div>
+                  <div className="movie-content">
+                    <p>Duration: </p>
+                    <p> {activeMovie.runtime} minutes</p>
+                  </div>
+                  <p className="movie-overview">{activeMovie.overview}</p>
+                  <div className="table">
+                    <div className="table-cell">
+                      <p>Genre:</p>
+                      {genre}
+                    </div>
+                  </div>
+                  <div className="table">
+                    <div className="table-cell">
+                      <p>Original Title: </p>
+                      <p>{activeMovie.original_title}</p>
+                    </div>
+                  </div>
+                  <div className="table">
+                    <div className="table-cell">
+                      <p>Director:</p>
+                      {director}
+                    </div>
+                  </div>
+                  <div className="table">
+                    <div className="table-cell">
+                      <p>Actors:</p>
+                      {actor}
+                    </div>
                   </div>
                 </div>
-                <div className="table">
-                  <div className="table-cell">
-                    <p>Original Title: </p>
-                    <p>{activeMovie.original_title}</p>
-                  </div>
+                <div className="col-lg-4">
+                  <img
+                    style={{
+                      height: "450px",
+                      width: "100%",
+                      borderBottom: "2px solid #f5821e"
+                    }}
+                    src={
+                      activeMovie.poster_path
+                        ? `${IMAGE_BASE_URL}${POSTER_SIZE}${
+                            activeMovie.poster_path
+                          }`
+                        : "./images/no_image.jpg"
+                    }
+                    alt={activeMovie.title}
+                  />
                 </div>
-                <div className="table">
-                  <div className="table-cell">
-                    <p>Director:</p>
-                    <p>{director}</p>
-                  </div>
-                </div>
-                <div className="table">
-                  <div className="table-cell">
-                    <p>Actors:</p>
-                    <p>{actor}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4">
-                <img
-                  style={{
-                    height: "450px",
-                    width: "100%",
-                    borderBottom: "2px solid #f5821e"
-                  }}
-                  src={
-                    activeMovie.poster_path
-                      ? `${IMAGE_BASE_URL}${POSTER_SIZE}${
-                          activeMovie.poster_path
-                        }`
-                      : "./images/no_image.jpg"
-                  }
-                  alt={activeMovie.title}
-                />
               </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </div>
     );

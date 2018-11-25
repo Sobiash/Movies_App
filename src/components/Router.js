@@ -11,7 +11,7 @@ const Router = () => {
       <div>
         <Header />
         <Switch>
-          <Route exact path="/" component={App} />
+          <Route exact path="/Movies_App" component={App} />
           <Route path="/:movieId" component={Movie} />
           <Route component={NotFound} />
         </Switch>

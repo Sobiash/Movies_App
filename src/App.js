@@ -17,11 +17,16 @@ class App extends Component {
   };
 
   componentDidMount = () => {
-    this.setState({
-      loading: true
-    });
-    const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
-    this.loadData(endpoint);
+    if (localStorage.getItem("HomeState")) {
+      const state = JSON.parse(localStorage.getItem("HomeState"));
+      this.setState({ ...state });
+    } else {
+      this.setState({
+        loading: true
+      });
+      const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+      this.loadData(endpoint);
+    }
   };
 
   loadMoreItems = () => {
@@ -57,13 +62,20 @@ class App extends Component {
   loadData = async endpoint => {
     const api_call = await fetch(endpoint);
     const data = await api_call.json();
-    this.setState({
-      movies: [...this.state.movies, ...data.results],
-      heroImage: this.state.heroImage || data.results[0],
-      loading: false,
-      currentPage: data.page,
-      totalPages: data.total_pages
-    });
+    this.setState(
+      {
+        movies: [...this.state.movies, ...data.results],
+        heroImage: this.state.heroImage || data.results[0],
+        loading: false,
+        currentPage: data.page,
+        totalPages: data.total_pages
+      },
+      () => {
+        if (this.state.searchTerm === "") {
+          localStorage.setItem("HomeState", JSON.stringify(this.state));
+        }
+      }
+    );
   };
 
   render() {
