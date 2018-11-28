@@ -25,21 +25,19 @@ class Movie extends React.Component {
   };
 
   componentDidMount = async () => {
-    if (localStorage.getItem(`${this.props.match.params.movieId}`)) {
-      const state = JSON.parse(
-        localStorage.getItem(`${this.props.match.params.movieId}`)
-      );
+    const movieId = this.props.match.params.movieId;
+    if (localStorage.getItem(`${movieId}`)) {
+      const state = JSON.parse(localStorage.getItem(`${movieId}`));
       this.setState({ ...state });
     } else {
       this.setState({ loading: true });
-      const endpoint = `${API_URL}movie/${
-        this.props.match.params.movieId
-      }?api_key=${API_KEY}&langyage=en-US`;
+      const endpoint = `${API_URL}movie/${movieId}?api_key=${API_KEY}&langyage=en-US`;
       this.loadData(endpoint);
     }
   };
 
   loadData = async endpoint => {
+    const movieId = this.props.match.params.movieId;
     const api_call = await fetch(endpoint);
     const data = await api_call.json();
     if (data.status_code) {
@@ -51,9 +49,7 @@ class Movie extends React.Component {
           genres: data.genres
         },
         async () => {
-          const endpoint = `${API_URL}movie/${
-            this.props.match.params.movieId
-          }/credits?api_key=${API_KEY}`;
+          const endpoint = `${API_URL}movie/${movieId}/credits?api_key=${API_KEY}`;
           const api_call = await fetch(endpoint);
           const data = await api_call.json();
           const directors = data.crew.filter(
@@ -66,10 +62,7 @@ class Movie extends React.Component {
               loading: false
             },
             () => {
-              localStorage.setItem(
-                `${this.props.match.params.movieId}`,
-                JSON.stringify(this.state)
-              );
+              localStorage.setItem(`${movieId}`, JSON.stringify(this.state));
             }
           );
         }
@@ -78,13 +71,13 @@ class Movie extends React.Component {
   };
 
   render() {
-    const genres = this.state.genres;
+    const { genres, activeMovie, directors, loading } = this.state;
+
     const genre = genres.map((genre, i) => {
       return <p key={i}>{genre.name}</p>;
     });
 
-    const activeMovie = this.state.activeMovie;
-    const director = this.state.directors.map((director, i) => {
+    const director = directors.map((director, i) => {
       return <p key={i}>{director.name}</p>;
     });
     const actors = [...this.state.actors];
@@ -96,7 +89,7 @@ class Movie extends React.Component {
     return (
       <div className="movie">
         <div className="container">
-          {this.state.activeMovie ? (
+          {activeMovie ? (
             <React.Fragment>
               <Navigation movieTitle={activeMovie.original_title} />
               <h1>{activeMovie.original_title}</h1>
@@ -113,8 +106,8 @@ class Movie extends React.Component {
             </React.Fragment>
           ) : null}
 
-          {this.state.loading ? <Spinner /> : null}
-          {this.state.activeMovie ? (
+          {loading ? <Spinner /> : null}
+          {activeMovie ? (
             <div className="details container">
               <div className="row">
                 <div className="col-lg-8 col-xs-12">

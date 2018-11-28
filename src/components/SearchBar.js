@@ -14,12 +14,13 @@ class SearchBar extends React.Component {
   timeout = null;
 
   search = e => {
+    const { searchItems } = this.props;
     this.setState({
       value: e.target.value
     });
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      this.props.searchItems(this.state.value);
+      searchItems(this.state.value);
     }, 500);
   };
 

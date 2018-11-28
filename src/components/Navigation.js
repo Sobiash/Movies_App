@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "../styles/Navigation.css";
 
 const Navigation = props => {
+  const { movieTitle } = props;
   return (
     <div className="navigation">
       <div className="navigation-content">
@@ -11,7 +12,7 @@ const Navigation = props => {
           <p>Home</p>
         </Link>
         <p>/</p>
-        <p>{props.movieTitle}</p>
+        <p>{movieTitle}</p>
       </div>
     </div>
   );
