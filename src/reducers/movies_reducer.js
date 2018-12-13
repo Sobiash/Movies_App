@@ -3,7 +3,8 @@ import {
   SEARCH_MOVIES,
   LOAD_MORE_MOVIES,
   CLEAR_MOVIES,
-  SHOW_LOADING_SPINNER
+  SHOW_LOADING_SPINNER,
+  MOVIES_PERSISTED_STATE
 } from "../actions/types";
 
 const initialState = {
@@ -17,6 +18,11 @@ const initialState = {
 
 const MoviesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case MOVIES_PERSISTED_STATE:
+      return {
+        ...state,
+        ...action.payload
+      };
     case GET_POPULAR_MOVIES:
       return {
         ...state,

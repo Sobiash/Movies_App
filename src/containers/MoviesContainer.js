@@ -6,23 +6,29 @@ import {
   searchMovies,
   loadMoreMovies,
   clearMovies,
-  loadingSpinner
+  loadingSpinner,
+  moviesPersistedState
 } from "../actions/Actions";
 
 class MoviesContainer extends React.Component {
   componentDidMount = () => {
-    this.getMovies();
-    // if (localStorage.getItem("HomeState")) {
-    //   const state = JSON.parse(localStorage.getItem("HomeState"));
-    //   this.setState({ ...state });
-    // } else {
-    //   this.setState({
-    //     loading: true
-    //   });
-    //   const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
-    //   this.loadData(endpoint);
-    // }
+    // this.getMovies();
+    if (sessionStorage.getItem("HomeState")) {
+      const state = JSON.parse(sessionStorage.getItem("HomeState"));
+      this.props.moviesPersistedState(state);
+    } else {
+      this.getMovies();
+    }
   };
+
+  componentDidUpdate = () => {
+    if (this.props.movies.length > 0) {
+      if (this.props.searchTerm === "") {
+        sessionStorage.setItem("HomeState", JSON.stringify(this.props));
+      }
+    }
+  };
+
   getMovies = () => {
     this.props.loadingSpinner();
     this.props.getPopularMovies();
@@ -55,8 +61,6 @@ const mapStateToProps = state => ({
   currentPage: state.movies.currentPage,
   totalPages: state.movies.totalPages,
   searchTerm: state.movies.searchTerm
-
-  // newPost: state.posts.item
 });
 
 const mapDispatchToProps = {
@@ -64,7 +68,8 @@ const mapDispatchToProps = {
   searchMovies,
   loadMoreMovies,
   clearMovies,
-  loadingSpinner
+  loadingSpinner,
+  moviesPersistedState
 };
 
 export default connect(

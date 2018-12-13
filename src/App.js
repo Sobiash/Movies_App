@@ -19,7 +19,7 @@ const App = ({
   // console.log(heroImage);
   // console.log(currentPage);
   // console.log(totalPages);
-  console.log(searchTerm);
+  // console.log(searchTerm);
   // console.log(currentPage);
   return (
     <div className="App">

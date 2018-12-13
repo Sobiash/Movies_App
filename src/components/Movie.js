@@ -1,87 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  API_URL,
-  API_KEY,
-  IMAGE_BASE_URL,
-  BACKDROP_SIZE,
-  POSTER_SIZE
-} from "../config";
+import { IMAGE_BASE_URL, BACKDROP_SIZE, POSTER_SIZE } from "../config";
 import Navigation from "./Navigation";
 import "../styles/Movie.css";
 import Spinner from "./Spinner";
 
 class Movie extends React.Component {
-  state = {
-    loading: false,
-    activeMovie: [],
-    directors: [],
-    actors: [],
-    genres: []
-  };
-
   static propTypes = {
     match: PropTypes.object
   };
 
-  componentDidMount = async () => {
-    const movieId = this.props.match.params.movieId;
-    if (localStorage.getItem(`${movieId}`)) {
-      const state = JSON.parse(localStorage.getItem(`${movieId}`));
-      this.setState({ ...state });
-    } else {
-      this.setState({ loading: true });
-      const endpoint = `${API_URL}movie/${movieId}?api_key=${API_KEY}&langyage=en-US`;
-      this.loadData(endpoint);
-    }
-  };
-
-  loadData = async endpoint => {
-    const movieId = this.props.match.params.movieId;
-    const api_call = await fetch(endpoint);
-    const data = await api_call.json();
-    if (data.status_code) {
-      this.setState({ loading: false });
-    } else {
-      this.setState(
-        {
-          activeMovie: data,
-          genres: data.genres
-        },
-        async () => {
-          const endpoint = `${API_URL}movie/${movieId}/credits?api_key=${API_KEY}`;
-          const api_call = await fetch(endpoint);
-          const data = await api_call.json();
-          const directors = data.crew.filter(
-            member => member.job === "Director"
-          );
-          this.setState(
-            {
-              actors: data.cast,
-              directors,
-              loading: false
-            },
-            () => {
-              localStorage.setItem(`${movieId}`, JSON.stringify(this.state));
-            }
-          );
-        }
-      );
-    }
-  };
-
   render() {
-    const { genres, activeMovie, directors, loading } = this.state;
+    const { genres, activeMovie, directors, actors, loading } = this.props;
 
     const genre = genres.map((genre, i) => {
-      return <p key={i}>{genre.name}</p>;
+      return <p key={i}> {genre.name} </p>;
     });
 
     const director = directors.map((director, i) => {
       return <p key={i}>{director.name}</p>;
     });
-    const actors = [...this.state.actors];
-    const newActors = actors.slice(0, 4);
+    const actorsList = actors;
+    const newActors = actorsList.slice(0, 4);
     const actor = newActors.map((actor, i) => {
       return <p key={i}>{actor.name}</p>;
     });
