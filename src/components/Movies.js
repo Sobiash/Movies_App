@@ -61,11 +61,11 @@ const Movies = props => {
 Movies.propTypes = {
   clickable: PropTypes.bool,
   movkey: PropTypes.number,
-  movieName: PropTypes.string,
-  movie: PropTypes.shape({
-    poster_path: PropTypes.string,
-    title: PropTypes.string
-  })
+  movieName: PropTypes.string
+  // movie: PropTypes.shape({
+  //   poster_path: PropTypes.string,
+  //   title: PropTypes.string
+  // })
 };
 
 export default Movies;
